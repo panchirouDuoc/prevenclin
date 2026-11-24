@@ -1,0 +1,567 @@
+
+/* ESTRUCTURA MÉDICA */
+
+.medico-app {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f8f8;
+  color: #183a43;
+}
+
+.medico-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  min-height: 100vh;
+  padding: 20px 14px;
+  background: linear-gradient(
+    165deg,
+    #185d87 0%,
+    #126e7b 47%,
+    #007e71 100%
+  );
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.medico-sidebar-marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.medico-logo-icono {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #0da79a;
+}
+
+.medico-sidebar-marca strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.medico-sidebar-marca small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: #b0d9df;
+  margin-top: 3px;
+}
+
+.medico-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.medico-menu-enlace {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 9px;
+  padding: 13px 12px;
+  color: #d3e9ec;
+  text-decoration: none;
+  font-size: 13px;
+  border: 1px solid transparent;
+  transition: background 0.2s;
+}
+
+.medico-menu-enlace:hover,
+.medico-menu-enlace.activo {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.medico-menu-enlace.activo {
+  font-weight: 600;
+}
+
+.medico-menu-punto {
+  margin-left: auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.medico-menu-enlace.activo .medico-menu-punto {
+  background: #12baa5;
+}
+
+.medico-sidebar-inferior {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.medico-sidebar-bloque {
+  min-height: 49px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.09);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+a.medico-sidebar-bloque:hover {
+  background: rgba(255, 255, 255, 0.19);
+}
+
+.medico-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #0a938d;
+}
+
+.medico-identidad strong,
+.medico-identidad small {
+  display: block;
+}
+
+.medico-identidad small {
+  color: #bed9df;
+  font-size: 10px;
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+/* CONTENIDO GENERAL */
+
+.medico-contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 27px 32px 45px;
+}
+
+.medico-migas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #82989c;
+  font-size: 12px;
+  margin-bottom: 36px;
+}
+
+.medico-migas strong {
+  color: #274a50;
+}
+
+.medico-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.medico-encabezado h1 {
+  margin: 0 0 7px;
+  font-size: 27px;
+  font-weight: 500;
+}
+
+.medico-encabezado p {
+  margin: 0;
+  color: #80969a;
+  font-size: 13px;
+}
+
+.medico-demo-indicador {
+  font-size: 11px;
+  color: #168579;
+  background: #e6f5f1;
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+
+/* ESTADÍSTICAS */
+
+.medico-estadisticas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 20px;
+}
+
+.medico-estadistica {
+  background: white;
+  border: 1px solid #edf3f3;
+  border-radius: 15px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #183a43;
+  text-decoration: none;
+  box-shadow: 0 7px 22px rgba(0, 50, 50, 0.05);
+  transition: transform 0.2s;
+}
+
+.medico-estadistica:hover {
+  transform: translateY(-3px);
+}
+
+.medico-estadistica-icono {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 11px;
+}
+
+.medico-estadistica-icono.azul {
+  color: #598bbe;
+  background: #edf5fb;
+}
+
+.medico-estadistica-icono.naranja {
+  color: #d89130;
+  background: #fff4e8;
+}
+
+.medico-estadistica-icono.morado {
+  color: #9670bd;
+  background: #f3eafa;
+}
+
+.medico-estadistica span,
+.medico-estadistica small {
+  display: block;
+  color: #85999d;
+  font-size: 11px;
+}
+
+.medico-estadistica strong {
+  display: block;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.medico-estadistica small {
+  margin-top: 4px;
+  color: #008779;
+}
+
+/* ACTIVIDAD Y PENDIENTES */
+
+.medico-columnas {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr);
+  gap: 15px;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+
+.medico-tarjeta {
+  min-width: 0;
+  background: white;
+  border: 1px solid #edf3f3;
+  border-radius: 15px;
+  padding: 21px;
+  box-shadow: 0 7px 22px rgba(0, 50, 50, 0.05);
+}
+
+.medico-tarjeta-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.medico-tarjeta-titulo h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.medico-tarjeta-titulo a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #008779;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.medico-lista-actividad {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.medico-actividad-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 9px;
+  padding: 9px;
+  color: #183a43;
+  text-decoration: none;
+}
+
+.medico-actividad-item:hover {
+  background: #f3f9f8;
+}
+
+.medico-actividad-icono {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.medico-actividad-icono.resultado {
+  color: #5285b2;
+  background: #eaf4fc;
+}
+
+.medico-actividad-icono.actualizacion {
+  color: #008779;
+  background: #e8f7f3;
+}
+
+.medico-actividad-icono.mensaje {
+  color: #d88e31;
+  background: #fff2e4;
+}
+
+.medico-actividad-item strong {
+  display: block;
+  font-size: 12px;
+}
+
+.medico-actividad-item small {
+  display: block;
+  color: #82999e;
+  margin-top: 4px;
+  font-size: 10px;
+}
+
+.medico-item-flecha {
+  margin-left: auto;
+  color: #a3b4b7;
+}
+
+.medico-estado-general {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 19px;
+  padding: 12px;
+  background: #eaf7f4;
+  color: #008779;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.medico-estado-general small {
+  margin-left: auto;
+  color: #7e999b;
+  font-size: 10px;
+}
+
+.medico-contador {
+  padding: 5px 9px;
+  background: #fff2e5;
+  border-radius: 15px;
+  color: #c5893a;
+  font-size: 11px;
+}
+
+.medico-pendiente-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #4c6b70;
+  font-size: 11px;
+  padding: 12px 3px;
+}
+
+.medico-pendiente-item:hover {
+  color: #008779;
+}
+
+.medico-pendiente-item > span:nth-child(2) {
+  flex: 1;
+}
+
+.medico-pendiente-punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid #d0e0e0;
+}
+
+.medico-pendiente-punto.naranja {
+  border-color: #e8a349;
+  background: #fff1e0;
+}
+
+.medico-pendiente-punto.verde {
+  background: #e6f5f2;
+}
+
+/* CITAS */
+
+.medico-citas-resumen {
+  display: grid;
+  gap: 10px;
+}
+
+.medico-cita-resumen {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #e3eeee;
+  border-radius: 10px;
+  padding: 13px;
+  text-decoration: none;
+  color: #183a43;
+}
+
+.medico-cita-resumen:hover {
+  border-color: #09a192;
+  background: #f5fbf9;
+}
+
+.medico-cita-hora {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #008779;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 75px;
+}
+
+.medico-cita-resumen strong,
+.medico-cita-resumen small {
+  display: block;
+}
+
+.medico-cita-resumen strong {
+  font-size: 12px;
+}
+
+.medico-cita-resumen small {
+  color: #82999e;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.medico-cita-estado {
+  margin-left: auto;
+  color: #008779;
+  background: #e8f7f3;
+  font-size: 10px;
+  padding: 6px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.medico-texto-vacio {
+  font-size: 13px;
+  color: #82999e;
+}
+
+/* Vista provisional durante el desarrollo */
+
+.medico-modulo-provisional {
+  padding: 30px;
+  border-radius: 15px;
+  background: white;
+  border: 1px solid #e5eeee;
+}
+
+.medico-modulo-provisional p {
+  color: #789196;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .medico-estadisticas {
+    gap: 12px;
+  }
+
+  .medico-estadistica {
+    padding: 16px;
+  }
+
+  .medico-columnas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .medico-app {
+    flex-direction: column;
+  }
+
+  .medico-sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .medico-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .medico-sidebar-inferior {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+
+  .medico-estadisticas {
+    grid-template-columns: 1fr;
+  }
+
+  .medico-contenido {
+    padding: 22px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .medico-cita-resumen {
+    flex-wrap: wrap;
+  }
+
+  .medico-cita-estado {
+    margin-left: 0;
+  }
+}
