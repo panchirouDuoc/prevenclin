@@ -45,7 +45,7 @@ function Sidebar() {
         </NavLink>
 
         <NavLink
-          to="/paciente/medicamentos"
+          to="/paciente/asistente"
           className={({ isActive }) =>
             isActive ? "active" : ""
           }

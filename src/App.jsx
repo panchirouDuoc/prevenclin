@@ -17,6 +17,8 @@ import HistoriaClinica from "./pages/HistoriaClinica";
 import IngresarMedicamentos from "./pages/IngresarMedicamentos";
 import SeguimientoPaciente from "./pages/SeguimientoPaciente";
 import MiPerfil from "./pages/MiPerfil";
+import Registro from "./pages/Registro";
+import AsistenteIA from "./pages/AsistenteIA";
 
 import "./styles/Inicio.css";
 import "./styles/App.css";
@@ -35,6 +37,19 @@ function App() {
   const [registros, setRegistros] = useState([]);
   const [historiaClinica, setHistoriaClinica] = useState(null);
   const [borradorRegistro, setBorradorRegistro] = useState(null);
+  const [registroPendiente, setRegistroPendiente] = useState(null);
+
+  const guardarHistoria = (datos) => {
+  setHistoriaClinica((anterior) => ({
+    ...anterior,
+    ...datos,
+    ...(registroPendiente
+      ? { correo: registroPendiente.correo }
+      : {}),
+  }));
+
+  setRegistroPendiente(null);
+};
 
   const agregarRegistro = (nuevoRegistro) => {
     setRegistros((anteriores) => [
@@ -60,36 +75,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/paciente/historia" element={<HistoriaClinica onGuardarHistoria={setHistoriaClinica}/>}/>
+        <Route path="/registro" element={<Registro onContinuar={setRegistroPendiente} />} />
+        <Route path="/paciente/historia" element={<HistoriaClinica onGuardarHistoria={guardarHistoria}/>}/>
         <Route path="/paciente/perfil" element={<MiPerfil historiaClinica={historiaClinica} onGuardarHistoria={setHistoriaClinica} />}/>
         <Route path="/paciente/medicamentos" element={<IngresarMedicamentos />} />
         <Route path="/paciente/seguimiento" element={<SeguimientoPaciente registros={registros} historiaClinica={historiaClinica}/>}/>
         <Route path="/paciente" element={<PanelPaciente registros={registros} historiaClinica={historiaClinica} />}/>
-        
-
-
-        <Route
-          path="/paciente/registrar"
-          element={
-            <RegistrarDatos
-              onContinuar={setBorradorRegistro}
-              borrador={borradorRegistro}
-              />
-              }
-            />
-
-
-        <Route
-          path="/paciente/registrar/medicamentos"
-          element={borradorRegistro ? (<IngresarMedicamentos onGuardar={finalizarRegistro}/>):
-          (<Navigate to="/paciente" />)}
-        />
-
-
-        <Route
-          path="/medico"
-          element={<PanelMedico />}
-        />
+        <Route path="/paciente/registrar" element={<RegistrarDatos onContinuar ={setBorradorRegistro} borrador={borradorRegistro}/>}/>
+        <Route path="/paciente/registrar/medicamentos" element={borradorRegistro ? (<IngresarMedicamentos onGuardar={finalizarRegistro}/>):(<Navigate to="/paciente" />)}/>
+        <Route path="/medico" element={<PanelMedico />}/>
+        <Route path="/paciente/asistente" element={<AsistenteIA />} />
       </Routes>
     </BrowserRouter>
   );
