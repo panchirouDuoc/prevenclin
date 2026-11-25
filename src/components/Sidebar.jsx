@@ -1,5 +1,6 @@
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { LifeBuoy } from "lucide-react";
 
 function Sidebar() {
   return (
@@ -28,6 +29,7 @@ function Sidebar() {
         >
           Registrar datos
         </NavLink>
+
         <NavLink
           to="/paciente/perfil"
           className={({ isActive }) =>
@@ -36,12 +38,14 @@ function Sidebar() {
         >
           Mi Perfil
         </NavLink>
-        
+
         <NavLink
           to="/paciente/seguimiento"
           className={({ isActive }) =>
-            isActive ? "active" : ""}>
-            Mi seguimiento
+            isActive ? "active" : ""
+          }
+        >
+          Mi seguimiento
         </NavLink>
 
         <NavLink
@@ -52,12 +56,19 @@ function Sidebar() {
         >
           Asistente de IA
         </NavLink>
-
-
       </nav>
 
+      {/* CENTRO DE AYUDA */}
       <div className="sidebar-footer">
-        <p>Centro de ayuda</p>
+        <Link
+          to="/paciente/asistente"
+          className="sidebar-help-card"
+          title="Ir al asistente de ayuda"
+        >
+          <LifeBuoy size={19} />
+
+          <span>Centro de ayuda</span>
+        </Link>
       </div>
     </aside>
   );

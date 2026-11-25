@@ -281,3 +281,66 @@
     height: 46px;
   }
 }
+
+/* CONTACTO MÉDICO DESDE EL ASISTENTE */
+
+.asistente-modo-contacto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 13px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #c6e5dd;
+  border-radius: 12px;
+  background: #ecf9f5;
+}
+
+.asistente-modo-contacto strong {
+  color: #007d70;
+  font-size: 13px;
+}
+
+.asistente-modo-contacto p {
+  margin: 5px 0 0;
+  color: #638b86;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.asistente-modo-contacto button {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #b9d9d1;
+  border-radius: 9px;
+  background: white;
+  color: #36796f;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.asistente-input-group .asistente-cancelar-input {
+  flex-shrink: 0;
+  padding: 0;
+  width: 44px;
+  background: #e8f1f0;
+  color: #4d7773;
+  border: 1px solid #d2e1df;
+  font-size: 24px;
+}
+
+.asistente-input-group .asistente-cancelar-input:hover {
+  background: #d9e9e5;
+}
+
+.burbuja.medico {
+  background: #e6f5f2;
+  color: #274f55;
+  border: 1px solid #c6e7df;
+  align-self: flex-start;
+}
+
+.burbuja.medico small {
+  color: #008779;
+}

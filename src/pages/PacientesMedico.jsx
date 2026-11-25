@@ -173,8 +173,7 @@ function PacientesMedico({
   const [pacienteId, setPacienteId] = useState(() => parametros.get("paciente") || "");
   const [mes, setMes] = useState("");
   const [registroId, setRegistroId] = useState("");
-  const [mostrarHistoria, setMostrarHistoria] =
-    useState(false);
+  const [mostrarHistoria, setMostrarHistoria] =useState(() => parametros.get("historia") === "1");
 
   const pacientesAsignados = useMemo(
     () =>

@@ -1,19 +1,40 @@
+
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/AsistenteIA.css";
 
-function AsistenteIA() {
+const preguntasSugeridas = [
+  "¿Cómo subir documentos?",
+  "¿Cómo ingresar mis registros?",
+  "¿Tengo una cita próxima?",
+  "¿Qué puedo consultar aquí?",
+  "Comunicarme con un médico",
+];
+
+function crearMensaje(tipo, texto) {
+  return {
+    id: crypto.randomUUID(),
+    tipo,
+    texto,
+  };
+}
+
+function AsistenteIA({
+  onEnviarMensajeMedico,
+  mensajesMedicos = [],
+}) {
   const [mensaje, setMensaje] = useState("");
+  const [modoContacto, setModoContacto] = useState(false);
 
   const [mensajes, setMensajes] = useState([
-    {
-      id: 1,
-      tipo: "bot",
-      texto:
-        "Hola, ¿en qué puedo ayudarte hoy? Puedes preguntar sobre horarios, recordatorios, orientación general o ayuda para coordinar tu atención.",
-    },
+    crearMensaje(
+      "bot",
+      "Hola, ¿en qué puedo ayudarte hoy? Puedes preguntar sobre horarios, recordatorios, orientación general o ayuda para coordinar tu atención."
+    ),
   ]);
 
+  // Solo para el prototipo.
+  // Posteriormente vendrá desde la agenda del paciente.
   const citaProxima = {
     existe: true,
     fecha: "28 de noviembre de 2026",
@@ -21,87 +42,164 @@ function AsistenteIA() {
     especialidad: "Control de seguimiento",
   };
 
-  const sugerencias = [
-    "¿Cómo subir documentos?",
-    "¿Cómo ingresar mis registros?",
-    "¿Tengo una cita próxima?",
-    "¿Qué puedo consultar aquí?",
-  ];
+  const historialContacto = [...mensajesMedicos].sort(
+    (a, b) => a.fecha.localeCompare(b.fecha)
+  );
 
-  const obtenerRespuesta = (textoUsuario) => {
-    const texto = textoUsuario.toLowerCase().trim();
+  function agregarMensajes(...nuevos) {
+    setMensajes((anteriores) => [
+      ...anteriores,
+      ...nuevos,
+    ]);
+  }
+
+  function iniciarContacto() {
+    setModoContacto(true);
+    setMensaje("");
+
+    agregarMensajes(
+      crearMensaje(
+        "usuario",
+        "Comunicarme con un médico"
+      ),
+      crearMensaje(
+        "bot",
+        "Has seleccionado contactar a tu médico. Escribe tu consulta en el campo inferior y presiona «Enviar al médico». El tiempo orientativo de respuesta es de 1 a 4 días hábiles. Este canal no está destinado a urgencias. Puedes cancelar antes de enviarla con la X o escribiendo «cancelar»."
+      )
+    );
+  }
+
+  function cancelarContacto() {
+    setModoContacto(false);
+    setMensaje("");
+
+    agregarMensajes(
+      crearMensaje(
+        "bot",
+        "Se canceló la redacción de tu consulta. No se envió ningún mensaje al médico."
+      )
+    );
+  }
+
+  function obtenerRespuesta(textoOriginal) {
+    const texto = textoOriginal.toLowerCase();
 
     if (
-      texto.includes("subir documentos") ||
-      texto.includes("adjuntar documentos") ||
-      texto.includes("documentos")
+      texto.includes("documento") ||
+      texto.includes("adjuntar") ||
+      texto.includes("archivo")
     ) {
-      return "Para subir documentos, entra a 'Registro diario' o al formulario correspondiente, busca el apartado 'Archivos adjuntos' y presiona 'Selecciona un archivo'. Puedes adjuntar archivos PNG, JPG, JPEG o PDF.";
+      return "Para adjuntar documentos, entra a «Registro diario», completa tus mediciones y busca el apartado de archivos adjuntos. Puedes seleccionar documentos PDF o imágenes compatibles con el formulario.";
     }
 
     if (
-      texto.includes("ingresar mis registros") ||
-      texto.includes("ingresar registros") ||
-      texto.includes("registro diario") ||
-      texto.includes("mis registros")
+      texto.includes("registro") ||
+      texto.includes("medicion")
     ) {
-      return "Para ingresar tus registros, entra al apartado 'Registro diario' en el menú lateral. Luego completa presión arterial, glucosa, frecuencia cardíaca, frecuencia respiratoria, fecha y comentarios. Después podrás continuar al apartado de medicamentos.";
+      return "Para ingresar tus mediciones, selecciona «Registro diario» en el menú lateral. Completa los datos de presión arterial, glucosa, frecuencia cardíaca y respiratoria. Después podrás continuar al formulario de medicamentos.";
     }
 
     if (
       texto.includes("cita") ||
-      texto.includes("citas") ||
-      texto.includes("recordatorio")
+      texto.includes("recordatorio") ||
+      texto.includes("horario")
     ) {
-      if (citaProxima.existe) {
-        return `Sí, tienes una cita próxima: ${citaProxima.especialidad}, el día ${citaProxima.fecha} a las ${citaProxima.hora}. Recuerda llegar con anticipación.`;
+      if (!citaProxima.existe) {
+        return "No hay citas próximas registradas en esta demostración.";
       }
 
-      return "Por el momento no tienes una cita próxima registrada.";
+      return `Según la agenda ficticia del asistente, tienes un ${citaProxima.especialidad.toLowerCase()} el ${citaProxima.fecha} a las ${citaProxima.hora}. Esta información es solo de demostración.`;
     }
 
     if (
-      texto.includes("qué puedo consultar") ||
-      texto.includes("que puedo consultar") ||
-      texto.includes("ayuda") ||
-      texto.includes("puedo preguntar")
+      texto.includes("consultar") ||
+      texto.includes("preguntar") ||
+      texto.includes("ayuda")
     ) {
-      return "Puedes consultarme sobre cómo usar la plataforma, cómo registrar mediciones, cómo adjuntar documentos y si tienes una cita próxima. Este asistente ofrece orientación general y no reemplaza a un profesional de salud.";
+      return "Puedo orientarte para registrar mediciones, adjuntar archivos, consultar recordatorios ficticios y enviar una consulta a tu médico. No realizo diagnósticos ni recomendaciones clínicas personalizadas.";
     }
 
-    return "Por ahora solo puedo responder preguntas generales sobre uso de la plataforma, registros, documentos y recordatorios de citas.";
-  };
+    return "Por ahora puedo responder preguntas sobre el funcionamiento de PrevenClin. También puedes seleccionar «Comunicarme con un médico» para escribir una consulta de demostración.";
+  }
 
-  const enviarMensaje = (textoManual = null) => {
+  function enviarMensaje(textoManual = null) {
     const contenido = (textoManual ?? mensaje).trim();
 
     if (!contenido) return;
 
-    const nuevoMensajeUsuario = {
-      id: Date.now(),
-      tipo: "usuario",
-      texto: contenido,
-    };
+    const textoNormalizado = contenido.toLowerCase();
 
-    const respuestaBot = {
-      id: Date.now() + 1,
-      tipo: "bot",
-      texto: obtenerRespuesta(contenido),
-    };
+    // Primero verificamos si el paciente desea cancelar.
+    if (
+      modoContacto &&
+      (textoNormalizado === "cancelar" ||
+        textoNormalizado === "cancelar mensaje" ||
+        textoNormalizado === "cancelar consulta")
+    ) {
+      cancelarContacto();
+      return;
+    }
 
-    setMensajes((prev) => [
-      ...prev,
-      nuevoMensajeUsuario,
-      respuestaBot,
-    ]);
+    // Cuando está activo el modo de contacto,
+    // el contenido se envía a la bandeja médica.
+    if (modoContacto) {
+      if (typeof onEnviarMensajeMedico !== "function") {
+        agregarMensajes(
+          crearMensaje(
+            "bot",
+            "No se pudo registrar la consulta en esta sesión."
+          )
+        );
+        return;
+      }
+
+      onEnviarMensajeMedico(contenido);
+
+      setModoContacto(false);
+      setMensaje("");
+
+      agregarMensajes(
+        crearMensaje(
+          "bot",
+          "Tu consulta quedó registrada en la bandeja del médico de demostración. El tiempo orientativo de respuesta es de 1 a 4 días hábiles. Podrás revisar aquí su respuesta cuando esté disponible en esta misma sesión."
+        )
+      );
+
+      return;
+    }
+
+    // Se puede activar el contacto mediante el botón
+    // sugerido o escribiendo la frase.
+    if (
+      textoNormalizado.includes(
+        "comunicarme con un médico"
+      ) ||
+      textoNormalizado.includes(
+        "comunicarme con un medico"
+      ) ||
+      textoNormalizado.includes(
+        "contactar al medico"
+      )
+    ) {
+      iniciarContacto();
+      return;
+    }
+
+    agregarMensajes(
+      crearMensaje("usuario", contenido),
+      crearMensaje(
+        "bot",
+        obtenerRespuesta(contenido)
+      )
+    );
 
     setMensaje("");
-  };
+  }
 
-  const manejarSubmit = (e) => {
-    e.preventDefault();
+  function manejarSubmit(evento) {
+    evento.preventDefault();
     enviarMensaje();
-  };
+  }
 
   return (
     <div className="app-container">
@@ -112,32 +210,27 @@ function AsistenteIA() {
           <span>
             Asistente de IA <strong>›</strong>
           </span>
-
-          <div className="asistente-superior-derecha">
-            <button className="asistente-mini-btn">🔔</button>
-            <button className="asistente-ayuda-btn">
-              ⓘ Ayuda
-            </button>
-          </div>
         </div>
 
         <header className="asistente-header">
           <h1>Asistente de IA</h1>
+
           <p>
-            Un espacio para orientarte con preguntas
-            generales, recordatorios y ayuda para
-            coordinar tu atención.
+            Orientación general, recordatorios y
+            comunicación con tu médico.
           </p>
         </header>
 
         <section className="asistente-card">
           <div className="asistente-card-top">
             <div className="asistente-brand">
-              <div className="asistente-avatar">IA</div>
+              <div className="asistente-avatar">
+                IA
+              </div>
 
               <div>
                 <h2>Asistente de PrevenClin</h2>
-                <p>Disponible para orientación 24/7</p>
+                <p>Orientación de demostración</p>
               </div>
             </div>
 
@@ -147,21 +240,19 @@ function AsistenteIA() {
           </div>
 
           <p className="asistente-descripcion">
-            Puedes preguntar sobre horarios,
-            recordatorios, orientación general y ayuda
-            para coordinar tu atención. Si necesitas
-            atención médica, siempre comunícate con tu
-            equipo clínico.
+            Puedes preguntar sobre el funcionamiento
+            de PrevenClin, recordatorios o cómo
+            contactar a tu médico.
           </p>
 
           <div className="asistente-alerta">
             <strong>IMPORTANTE</strong>
             <p>
-              Este asistente no reemplaza a un médico ni
-              a sus funciones. Solo ofrece ayuda general,
-              orientación y recordatorios. No te brindará
-              diagnósticos, prescripciones ni consejo
-              clínico personalizado.
+              Este asistente no reemplaza la atención
+              médica. No realiza diagnósticos,
+              prescripciones ni recomendaciones clínicas
+              personalizadas. Los mensajes de esta
+              versión no se envían a médicos reales.
             </p>
           </div>
 
@@ -175,53 +266,130 @@ function AsistenteIA() {
                     : "burbuja usuario"
                 }
               >
-                {item.tipo === "bot" && (
-                  <small>ASISTENTE DE IA</small>
-                )}
-                {item.tipo === "usuario" && (
-                  <small>TÚ</small>
-                )}
+                <small>
+                  {item.tipo === "bot"
+                    ? "ASISTENTE DE IA"
+                    : "TÚ"}
+                </small>
+
+                <p>{item.texto}</p>
+              </div>
+            ))}
+
+            {/* Mensajes que guarda el estado compartido.
+                Permanecen al cambiar de página,
+                mientras no se recargue el navegador. */}
+            {historialContacto.map((item) => (
+              <div
+                key={item.id}
+                className={
+                  item.remitente === "medico"
+                    ? "burbuja medico"
+                    : "burbuja usuario"
+                }
+              >
+                <small>
+                  {item.remitente === "medico"
+                    ? "RESPUESTA DEL MÉDICO"
+                    : "CONSULTA ENVIADA"}
+                </small>
+
                 <p>{item.texto}</p>
               </div>
             ))}
           </div>
 
-          <div className="asistente-sugerencias">
-            <span>PUEDES PREGUNTAR POR</span>
+          {modoContacto && (
+            <div
+              className="asistente-modo-contacto"
+              role="status"
+            >
+              <div>
+                <strong>
+                  Redactando consulta al médico
+                </strong>
 
-            <div className="asistente-botones-sugeridos">
-              {sugerencias.map((pregunta) => (
-                <button
-                  key={pregunta}
-                  type="button"
-                  onClick={() => enviarMensaje(pregunta)}
-                >
-                  {pregunta}
-                </button>
-              ))}
+                <p>
+                  El siguiente mensaje se registrará
+                  en su bandeja de demostración.
+                  Puedes cancelar antes del envío.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={cancelarContacto}
+                aria-label="Cancelar consulta al médico"
+                title="Cancelar consulta"
+              >
+                ×
+              </button>
             </div>
-          </div>
+          )}
+
+          {!modoContacto && (
+            <div className="asistente-sugerencias">
+              <span>PUEDES PREGUNTAR POR</span>
+
+              <div className="asistente-botones-sugeridos">
+                {preguntasSugeridas.map((pregunta) => (
+                  <button
+                    type="button"
+                    key={pregunta}
+                    onClick={() =>
+                      enviarMensaje(pregunta)
+                    }
+                  >
+                    {pregunta}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <form
             className="asistente-form"
             onSubmit={manejarSubmit}
           >
             <label htmlFor="mensajeAsistente">
-              ESCRIBE TU MENSAJE
+              {modoContacto
+                ? "ESCRIBE TU CONSULTA AL MÉDICO"
+                : "ESCRIBE TU MENSAJE"}
             </label>
 
             <div className="asistente-input-group">
               <input
                 id="mensajeAsistente"
                 type="text"
-                placeholder="Escribe una pregunta o pide ayuda..."
+                maxLength={2000}
+                placeholder={
+                  modoContacto
+                    ? "Escribe tu consulta o «cancelar»..."
+                    : "Escribe una pregunta o pide ayuda..."
+                }
                 value={mensaje}
-                onChange={(e) =>
-                  setMensaje(e.target.value)
+                onChange={(evento) =>
+                  setMensaje(evento.target.value)
                 }
               />
 
-              <button type="submit">Enviar ✈</button>
+              {modoContacto && (
+                <button
+                  type="button"
+                  className="asistente-cancelar-input"
+                  onClick={cancelarContacto}
+                  title="Cancelar consulta"
+                  aria-label="Cancelar consulta"
+                >
+                  ×
+                </button>
+              )}
+
+              <button type="submit">
+                {modoContacto
+                  ? "Enviar al médico"
+                  : "Enviar"}
+              </button>
             </div>
           </form>
         </section>

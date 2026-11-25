@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   Circle,
   AlertCircle,
+  NotebookPen,
 } from "lucide-react";
 
 import SidebarMedico from "../components/SidebarMedico";
@@ -49,6 +50,7 @@ function crearFormulario(registro) {
 function EditarExpedienteMedico({
   medico,
   pacientes = [],
+  anotaciones = [],
   onGuardar,
 }) {
   const navigate = useNavigate();
@@ -90,6 +92,12 @@ function EditarExpedienteMedico({
 
   const registroOriginal = registros.find(
     (registro) => registro.id === registroId
+  );
+
+  const anotacionesPaciente = anotaciones
+  .filter((nota) => nota.pacienteId === pacienteId)
+  .sort((a, b) =>
+    b.creadoEn.localeCompare(a.creadoEn)
   );
 
   const camposResumen = [
@@ -723,7 +731,38 @@ function EditarExpedienteMedico({
                   </div>
                 ))
               )}
+
             </div>
+
+
+            <div className="em-historial">
+                <h3>
+                    <NotebookPen size={16} />
+                    Anotaciones de Agenda
+                </h3>
+
+                {anotacionesPaciente.length === 0 ? (
+                    <p>
+                    No hay anotaciones registradas desde Agenda.
+                    </p>
+                ) : (
+                   anotacionesPaciente.map((nota) => (
+                    <div className="em-evento" key={nota.id}>
+                        <strong>{nota.titulo}</strong>
+
+                        <small>
+                            {nota.autor} ·{" "}
+                            {new Date(nota.creadoEn).toLocaleString(
+                             "es-CL"
+                            )}
+                        </small>
+
+                        <p>{nota.texto}</p>
+                    </div>
+                   ))
+                )}
+            </div>
+
           </aside>
         </div>
       </main>

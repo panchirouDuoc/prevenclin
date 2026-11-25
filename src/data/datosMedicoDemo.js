@@ -243,3 +243,36 @@ export const mensajesDemo = [
     leido: true,
   },
 ];
+
+export const anotacionesDemo = [
+  {
+    id: "nota-demo-1",
+    pacienteId: "paciente-ana",
+    citaId: "cita-2",
+    titulo: "Preparación de la consulta",
+    texto:
+      "Revisar la evolución de los registros de presión arterial y glucosa durante el próximo control.",
+    autor: "Dr. Médico",
+    creadoEn: "2026-11-24T09:45:00",
+  },
+  {
+    id: "nota-demo-2",
+    pacienteId: "paciente-ana",
+    citaId: null,
+    titulo: "Seguimiento de registros",
+    texto:
+      "Continuar revisando los registros domiciliarios informados por la paciente.",
+    autor: "Dr. Médico",
+    creadoEn: "2026-11-20T10:00:00",
+  },
+  {
+    id: "nota-demo-3",
+    pacienteId: "paciente-jorge",
+    citaId: "cita-1",
+    titulo: "Control programado",
+    texto:
+      "Revisar los registros recientes durante el control de seguimiento.",
+    autor: "Dr. Médico",
+    creadoEn: "2026-11-23T08:30:00",
+  },
+];
