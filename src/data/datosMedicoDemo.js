@@ -64,6 +64,28 @@ export const pacientesDemo = [
         138, 86, 126, 82, 16,
         "Ligero dolor de cabeza al despertar."
       ),
+
+      crearRegistro(
+        "ana-demo-01", "2026-11-03",
+        125, 80, 112, 76, 16
+      ),
+      crearRegistro(
+        "ana-demo-02", "2026-11-06",
+        130, 82, 115, 79, 17
+      ),
+      crearRegistro(
+        "ana-demo-03", "2026-11-09",
+        127, 81, 118, 77, 16
+      ),
+      crearRegistro(
+        "ana-demo-04", "2026-11-12",
+        134, 84, 121, 81, 17
+      ),
+      crearRegistro(
+        "ana-demo-05", "2026-11-14",
+        129, 83, 119, 80, 16
+      ),
+
     ],
   },
   {
