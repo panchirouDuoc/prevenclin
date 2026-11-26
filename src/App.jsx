@@ -210,17 +210,57 @@ useEffect(() => {
   //FUNCIONES DEL PACIENTE
 
 
-  const guardarHistoria = (datos) => {
-    setHistoriaClinica((anterior) => ({
-      ...anterior,
-      ...datos,
-      ...(registroPendiente
-        ? { correo: registroPendiente.correo }
-        : {}),
-    }));
+  
+const guardarHistoria = (datos) => {
+  const esCuentaNueva = Boolean(
+    registroPendiente?.correo
+  );
 
-    setRegistroPendiente(null);
-  };
+  if (esCuentaNueva) {
+    // Una nueva cuenta comienza sin mediciones anteriores.
+    setRegistros([]);
+    setBorradorRegistro(null);
+
+    // Limpiar únicamente los datos del paciente
+    // de sesión anterior, conservando los pacientes demo.
+    setDatosMedico((anterior) => ({
+      ...anterior,
+
+      pacientes: anterior.pacientes.filter(
+        (paciente) =>
+          paciente.id !== "paciente-sesion-demo"
+      ),
+
+      mensajes: anterior.mensajes.filter(
+        (mensaje) =>
+          mensaje.pacienteId !== "paciente-sesion-demo"
+      ),
+
+      citas: anterior.citas.filter(
+        (cita) =>
+          cita.pacienteId !== "paciente-sesion-demo"
+      ),
+
+      anotaciones: (
+        anterior.anotaciones || []
+      ).filter(
+        (nota) =>
+          nota.pacienteId !== "paciente-sesion-demo"
+      ),
+    }));
+  }
+
+  setHistoriaClinica((anterior) => ({
+    ...(esCuentaNueva ? {} : anterior),
+    ...datos,
+    ...(esCuentaNueva
+      ? { correo: registroPendiente.correo }
+      : {}),
+  }));
+
+  setRegistroPendiente(null);
+};
+
 
   const agregarRegistro = (nuevoRegistro) => {
     setRegistros((anteriores) => [

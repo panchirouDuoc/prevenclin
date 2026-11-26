@@ -615,3 +615,57 @@
     padding: 11px;
   }
 }
+
+/* CENTRO DE AYUDA Y CERRAR SESIÓN */
+
+.sidebar .sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.sidebar .sidebar-logout-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  width: 100%;
+  min-height: 51px;
+  padding: 12px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.09);
+
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sidebar .sidebar-logout-card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.sidebar .sidebar-logout-card:focus-visible {
+  outline: 2px solid #b5eae0;
+  outline-offset: 2px;
+}
+
+.sidebar .sidebar-logout-card svg {
+  flex-shrink: 0;
+  color: #d6f1eb;
+}
+
+.sidebar .sidebar-logout-card span {
+  color: #ffffff;
+}

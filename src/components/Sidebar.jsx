@@ -1,6 +1,6 @@
 
 import { NavLink, Link } from "react-router-dom";
-import { LifeBuoy } from "lucide-react";
+import { LifeBuoy, LogOut } from "lucide-react";
 
 function Sidebar() {
   return (
@@ -58,17 +58,23 @@ function Sidebar() {
         </NavLink>
       </nav>
 
-      {/* CENTRO DE AYUDA */}
       <div className="sidebar-footer">
         <Link
           to="/paciente/asistente"
           className="sidebar-help-card"
-          title="Ir al asistente de ayuda"
         >
           <LifeBuoy size={19} />
-
           <span>Centro de ayuda</span>
         </Link>
+
+        <button
+          type="button"
+          className="sidebar-logout-card"
+          onClick={() => window.location.replace("/")}
+        >
+          <LogOut size={19} />
+          <span>Cerrar sesión</span>
+        </button>
       </div>
     </aside>
   );

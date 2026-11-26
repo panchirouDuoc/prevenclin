@@ -1213,10 +1213,9 @@ function PacientesMedico({
               </div>
 
               <p className="pm-modal-nota">
-                Historia clínica de demostración.
+                Historia clínica.
                 La edición y el registro de cambios
-                se incorporarán en el módulo
-                Editar expediente.
+                se aplican en Editar expediente.
               </p>
             </div>
 

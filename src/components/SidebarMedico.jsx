@@ -11,6 +11,7 @@ import {
   LifeBuoy,
   Calculator,
   Cross,
+  LogOut,
 } from "lucide-react";
 
 import "../styles/Medico.css";
@@ -106,6 +107,16 @@ function SidebarMedico({ nombreMedico = "Dr. Médico" }) {
           <LifeBuoy size={18} />
           <span>Centro de ayuda</span>
         </div>
+
+        <button
+  type="button"
+  className="medico-sidebar-bloque medico-cerrar-sesion"
+  onClick={() => window.location.replace("/")}
+>
+  <LogOut size={18} />
+  <span>Cerrar sesión</span>
+</button>
+
       </div>
     </aside>
   );

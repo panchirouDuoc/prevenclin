@@ -147,11 +147,6 @@ function Registro({ onContinuar }) {
               </p>
             )}
 
-            <div className="registro-cuenta-aviso">
-              Versión demostrativa: utiliza datos
-              ficticios. La creación segura de cuentas
-              se implementará con el backend.
-            </div>
 
             <button
               type="submit"
